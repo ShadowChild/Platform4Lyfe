@@ -1,10 +1,12 @@
 package co.uk.shadowchild.platformer.util;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+/**
+ * @author ShadowChild
+ */
 public class LogHelper {
 
     private static final Logger LOGGER = LogManager.getLogger("Platformer");
@@ -18,7 +20,6 @@ public class LogHelper {
 
     public Logger getLogger() {
 
-//        LOGGER.entry();
         return LOGGER;
     }
 
