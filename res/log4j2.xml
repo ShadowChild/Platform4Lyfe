@@ -2,14 +2,14 @@
 <configuration status="OFF">
     <appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level[%logger{36}] - %msg%n"/>
         </Console>
     </appenders>
     <loggers>
-        <root level="error">
+        <root level="all">
             <appender-ref ref="Console"/>
         </root>
-        <logger name="Platformer" level="info" additivity="false">
+        <logger name="Platformer" level="all" additivity="false">
             <appender-ref ref="Console"/>
         </logger>
     </loggers>
