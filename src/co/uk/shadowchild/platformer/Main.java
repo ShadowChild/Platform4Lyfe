@@ -1,6 +1,7 @@
 package co.uk.shadowchild.platformer;
 
 import co.uk.shadowchild.platformer.util.LogHelper;
+import co.uk.shadowchild.platformer.util.Utils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -42,13 +43,12 @@ public class Main extends Canvas {
         gameRunning = false;
         try {
 
-            gameLoop.join();
+            LogHelper.getInstance().info("Attempting to join threads");
+            gameLoop.join(1000);
         } catch(InterruptedException e) {
 
             LogHelper.getInstance().error("This Shouldnt Happen", e);
         }
-
-        System.exit(0);
     }
 
     public Main() {
@@ -63,12 +63,16 @@ public class Main extends Canvas {
     public static void main(String... args) {
 
         try {
+
             background = ImageIO.read(Main.class.getResourceAsStream("/background.png"));
         } catch(IOException e) {
+
             e.printStackTrace();
         }
 
         game = new Main();
+
+        Runtime.getRuntime().addShutdownHook(new ExitThread(game));
 
         JFrame frame = new JFrame("Platformer");
         frame.add(game);
@@ -90,23 +94,44 @@ public class Main extends Canvas {
 
     }
 
-    public void render(int frames) {
+    public void render() {
 
         BufferStrategy strat = this.getBufferStrategy();
 
         if(strat != null) {
 
-            Graphics g = strat.getDrawGraphics();
+             Graphics g = strat.getDrawGraphics();
 
-            LogHelper.getInstance().info("RENDERING");
+//            LogHelper.getInstance().info("RENDERING");
             g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-            //        g.drawString("FPS: " + frames, 20, 20);
+            g.drawString("FPS: " + Utils.getInstance().frames, 20, 20);
+            g.drawString("UPS: " + Utils.getInstance().ticks, 20, 35);
+
+            System.out.println(getWidth() + " " + getHeight());
 
             g.dispose();
             strat.show();
         } else {
 
             this.createBufferStrategy(3);
+        }
+    }
+
+    public static class ExitThread extends Thread {
+
+        Main game;
+
+        public ExitThread(Main game) {
+
+            super();
+            this.setName("ExitThread");
+            this.game = game;
+        }
+
+        @Override
+        public void run() {
+
+            game.stop();
         }
     }
 }

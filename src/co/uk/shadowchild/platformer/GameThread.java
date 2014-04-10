@@ -1,6 +1,6 @@
 package co.uk.shadowchild.platformer;
 
-import co.uk.shadowchild.platformer.util.LogHelper;
+import co.uk.shadowchild.platformer.util.Utils;
 
 
 /**
@@ -38,13 +38,15 @@ public class GameThread extends Thread {
                 updates++;
                 delta--;
             }
-            Main.game.render(frames);
             frames++;
+            Main.game.render();
 
             if(System.currentTimeMillis() - timer > 1000) {
 
                 timer += 1000;
-                LogHelper.getInstance().info("Ticks = " + updates + ", Frames = " + frames);
+                Utils.getInstance().frames = frames;
+                Utils.getInstance().ticks = updates;
+//                LogHelper.getInstance().info("Ticks = " + updates + ", Frames = " + frames);
                 updates = 0;
                 frames = 0;
             }
