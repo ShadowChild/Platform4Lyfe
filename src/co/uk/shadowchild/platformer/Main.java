@@ -1,22 +1,22 @@
 package co.uk.shadowchild.platformer;
 
+import co.uk.shadowchild.platformer.render.GlobalRenderer;
 import co.uk.shadowchild.platformer.util.LogHelper;
-import co.uk.shadowchild.platformer.util.Utils;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 
 /**
  * @author ShadowChild
  */
-public class Main extends Canvas {
+public class Main {
 
-    public static Main game;
+    private static Game game;
+    private static Main instance;
     public static final int WIDTH = 600;
     public static final int HEIGHT = WIDTH / 16 * 9;
     public static final int SCALE = 2;
@@ -24,57 +24,26 @@ public class Main extends Canvas {
     public boolean gameRunning = false;
     public Thread gameLoop;
 
-    private static BufferedImage background;
-
-    public synchronized void start() {
-
-        if(gameRunning) return;
-
-        gameRunning = true;
-        gameLoop = new GameThread();
-        gameLoop.start();
-    }
-
-    public synchronized void stop() {
-
-        if(!gameRunning) return;
-
-        LogHelper.getInstance().info("Shutting Down");
-        gameRunning = false;
-        try {
-
-            LogHelper.getInstance().info("Attempting to join threads");
-            gameLoop.join(1000);
-        } catch(InterruptedException e) {
-
-            LogHelper.getInstance().error("This Shouldnt Happen", e);
-        }
-    }
-
     public Main() {
 
         LogHelper.getInstance().info("Started Loading Process");
-
-        this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT  * SCALE));
-        this.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        this.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
     }
 
     public static void main(String... args) {
 
+        instance = new Main();
+        game = new Game(WIDTH, HEIGHT, SCALE);
+
         try {
 
-            background = ImageIO.read(Main.class.getResourceAsStream("/background.png"));
+            GlobalRenderer.preLoadImages();
         } catch(IOException e) {
 
             e.printStackTrace();
         }
 
-        game = new Main();
-
-        Runtime.getRuntime().addShutdownHook(new ExitThread(game));
-
         JFrame frame = new JFrame("Platformer");
+        frame.addWindowListener(new ExitListener());
         frame.add(game);
         frame.pack();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -90,48 +59,22 @@ public class Main extends Canvas {
         game.start();
     }
 
-    public void tick() {
-
-    }
-
-    public void render() {
-
-        BufferStrategy strat = this.getBufferStrategy();
-
-        if(strat != null) {
-
-             Graphics g = strat.getDrawGraphics();
-
-//            LogHelper.getInstance().info("RENDERING");
-            g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-            g.drawString("FPS: " + Utils.getInstance().frames, 20, 20);
-            g.drawString("UPS: " + Utils.getInstance().ticks, 20, 35);
-
-            System.out.println(getWidth() + " " + getHeight());
-
-            g.dispose();
-            strat.show();
-        } else {
-
-            this.createBufferStrategy(3);
-        }
-    }
-
-    public static class ExitThread extends Thread {
-
-        Main game;
-
-        public ExitThread(Main game) {
-
-            super();
-            this.setName("ExitThread");
-            this.game = game;
-        }
+    public static class ExitListener extends WindowAdapter {
 
         @Override
-        public void run() {
+        public void windowClosing(WindowEvent e) {
 
-            game.stop();
+            getInstance().getGame().stop();
         }
+    }
+
+    public Game getGame() {
+
+        return game;
+    }
+
+    public static Main getInstance() {
+
+        return instance;
     }
 }

@@ -26,7 +26,7 @@ public class GameThread extends Thread {
         int frames = 0;
         long timer = System.currentTimeMillis();
 
-        while(Main.game.gameRunning) {
+        while(Main.getInstance().gameRunning) {
 
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -34,23 +34,23 @@ public class GameThread extends Thread {
 
             if(delta >= 1) {
 
-                Main.game.tick();
+                Main.getInstance().getGame().tick();
                 updates++;
                 delta--;
             }
+            Main.getInstance().getGame().render();
             frames++;
-            Main.game.render();
 
             if(System.currentTimeMillis() - timer > 1000) {
 
                 timer += 1000;
                 Utils.getInstance().frames = frames;
                 Utils.getInstance().ticks = updates;
-//                LogHelper.getInstance().info("Ticks = " + updates + ", Frames = " + frames);
+                //                LogHelper.getInstance().info("Ticks = " + updates + ", Frames = " + frames);
                 updates = 0;
                 frames = 0;
             }
         }
-        Main.game.stop();
+        Main.getInstance().getGame().stop();
     }
 }
