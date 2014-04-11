@@ -1,6 +1,5 @@
 package co.uk.shadowchild.platformer.util;
 
-import co.uk.shadowchild.platformer.main.Launch;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +15,12 @@ public class LogHelper {
 
     // create LogHelper instance
     private static LogHelper instance = new LogHelper();
+
+    public LogHelper() {
+
+        System.setOut(getLogger().getStream(Level.INFO));
+        System.setErr(getLogger().getStream(Level.ERROR));
+    }
 
     /**
      * @return instance of this
@@ -40,7 +45,6 @@ public class LogHelper {
      */
     public void info(Object message) {
 
-        Launch.getInstance().getConsole().textArea.append(message.toString() + "\n");
         getLogger().info(message);
     }
 
@@ -55,8 +59,8 @@ public class LogHelper {
         getLogger().error(message, error);
     }
 
-    public void doStuuf() {
+    public void log(Level level, String message, Object... args) {
 
-        System.setOut(getLogger().getStream(Level.INFO));
+        getLogger().log(level, message, args);
     }
 }

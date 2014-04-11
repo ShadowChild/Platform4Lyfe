@@ -26,7 +26,19 @@ public class KeyHandler {
 
         if(evt.keyCode == Keyboard.KEY_F) {
 
-            Launch.getInstance().getGame().setDisplayMode(Launch.WIDTH * Launch.SCALE, Launch.HEIGHT * Launch.SCALE, !Display.isFullscreen());
+            int width;
+            int height;
+            if(!Display.isFullscreen()) {
+
+                width = 1920;
+                height = 1080;
+            } else {
+
+                width = Launch.WIDTH * Launch.SCALE;
+                height = Launch.HEIGHT * Launch.SCALE;
+            }
+
+            Launch.getInstance().getGame().setDisplayMode(width, height, !Display.isFullscreen());
         }
 
         if(evt.keyCode == Keyboard.KEY_F2) {

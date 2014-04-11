@@ -46,18 +46,22 @@ public class Launch {
     // main method for every java program
     public static void main(String... args) {
 
-        instance = new Launch();
-        console = new Console();
+        for(String string : args) {
 
-        LogHelper.getInstance().doStuuf();
-        LogHelper.getInstance().info("Starting Game");
+            if(string.equals("--nowindow")) System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+        }
+
         System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/lib/lwjgl/" + "native/" + getSystemOS());
+
+        instance = new Launch();
+//        console = new Console();
+
+        LogHelper.getInstance().info("Starting Game");
 //        System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 
         // register event handlers
         KEY_EVENT_BUS.register(new KeyHandler());
         MOUSE_EVENT_BUS.register(new MouseHandler());
-        System.out.println("Did Stuff");
 
         // initialise instances
         game = new Game();
