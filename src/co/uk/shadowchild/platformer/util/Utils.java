@@ -11,6 +11,7 @@ public class Utils {
     private static Utils instance = new Utils();
 
     public static Utils getInstance() {
+
         return instance;
     }
 }
