@@ -43,15 +43,30 @@ public class Launch {
     public static final EventBus KEY_EVENT_BUS = new EventBus("KeyHandler");
     public static final EventBus MOUSE_EVENT_BUS = new EventBus("MouseHandler");
 
+    private static boolean isDebug;
+
     // main method for every java program
     public static void main(String... args) {
 
         for(String string : args) {
 
             if(string.equals("--nowindow")) System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+            if(string.equals("--debug")) {
+
+                isDebug = true;
+            } else {
+
+                isDebug = false;
+            }
         }
 
-        System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/lib/lwjgl/" + "native/" + getSystemOS());
+        if(isDebug) {
+
+            System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/lib/lwjgl/" + "native/" + getSystemOS());
+        } else {
+
+            System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/native/" + getSystemOS());
+        }
 
         instance = new Launch();
 //        console = new Console();
