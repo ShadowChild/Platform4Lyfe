@@ -1,6 +1,7 @@
 package co.uk.shadowchild.platformer.handler;
 
 import co.uk.shadowchild.platformer.event.KeyInputEvent;
+import co.uk.shadowchild.platformer.impl.IEventHandler;
 import co.uk.shadowchild.platformer.main.Launch;
 import co.uk.shadowchild.platformer.util.LogHelper;
 import co.uk.shadowchild.platformer.util.ScreenshotHelper;
@@ -14,7 +15,7 @@ import java.io.IOException;
 /**
  * @author ShadowChild
  */
-public class KeyHandler {
+public class KeyHandler implements IEventHandler<KeyInputEvent> {
 
     @Subscribe
     public void handle(KeyInputEvent evt) {
