@@ -22,6 +22,18 @@ public class MouseInputHandler implements IInputHandler {
             this.mouseID = mouseID;
         }
 
+        public static Type getTypeFromInt(int type) {
+
+            for(Type button : values()) {
+
+                if(button.mouseID == type) {
+
+                    return button;
+                }
+            }
+            return null;
+        }
+
         public int mouseID;
     }
 
@@ -32,11 +44,16 @@ public class MouseInputHandler implements IInputHandler {
 
             if(Mouse.getEventButtonState()) {
 
-                switch(Mouse.getEventButton()) {
+                Type type = Type.getTypeFromInt(Mouse.getEventButton());
 
-                    case 0: RenderGlobal.spawnBox(new Point(Mouse.getX(), getCorrectedY()), 100, 100); break;
+                switch(type) {
 
-                    default: break;
+                    case LEFT:
+                        RenderGlobal.spawnBox(new Point(Mouse.getX(), getCorrectedY()), 100, 100);
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }

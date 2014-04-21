@@ -45,7 +45,7 @@ public class Game {
             e.printStackTrace();
         }
 
-        initGL();
+        RenderGlobal.initGL(WIDTH, HEIGHT);
 
         while(!Display.isCloseRequested()) {
 
@@ -64,13 +64,5 @@ public class Game {
         }
 
         Display.destroy();
-    }
-
-    public void initGL() {
-
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
     }
 }

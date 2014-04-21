@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class RenderGlobal {
 
+    private static boolean isInitialized;
+
     public static List<Box> boxes = new ArrayList<>();
 
     public static void renderLine(Point left, Point right) {
@@ -38,5 +40,16 @@ public class RenderGlobal {
 
         Box box = new Box(topLeft, width, height);
         boxes.add(box);
+    }
+
+    public static void initGL(int width, int height) {
+
+        if(isInitialized) return;
+
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glLoadIdentity();
+        GL11.glOrtho(0, width, height, 0, 1, -1);
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        isInitialized = true;
     }
 }

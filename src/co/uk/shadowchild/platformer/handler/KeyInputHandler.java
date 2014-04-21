@@ -18,9 +18,12 @@ public class KeyInputHandler implements IInputHandler {
 
                 switch(Keyboard.getEventKey()) {
 
-                    case Keyboard.KEY_ESCAPE: Display.destroy(); System.exit(1);
+                    case Keyboard.KEY_ESCAPE:
+                        Display.destroy();
+                        System.exit(1);
 
-                    default: break;
+                    default:
+                        break;
                 }
             }
         }
