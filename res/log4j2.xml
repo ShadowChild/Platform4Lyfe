@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="OFF" name = "Platformer">
-<appenders>
-    <Console name="Console" target="SYSTEM_OUT">
-        <PatternLayout pattern="%d{HH:mm:ss} %-5level [%logger{36}] - %msg%n"/>
-    </Console>
-</appenders>
-<loggers>
-    <root level="all">
-        <appender-ref ref="Console"/>
-    </root>
-    <logger name="Platformer" level="all" additivity="false">
-        <appender-ref ref="Console"/>
-    </logger>
-</loggers>
+<configuration status="OFF" name = "3DGame">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} %-5level [%logger{36}] - %msg%n"/>
+        </Console>
+    </appenders>
+    <loggers>
+        <root level="all">
+            <appender-ref ref="Console"/>
+        </root>
+        <logger name="3DGame" level="all" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+    </loggers>
 </configuration>
