@@ -5,7 +5,7 @@ package co.uk.shadowchild.platformer.geom;
  */
 public class Point {
 
-    public final int x, y;
+    public int x, y;
 
     public Point(int x, int y) {
 

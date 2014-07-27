@@ -1,8 +1,9 @@
 package co.uk.shadowchild.platformer;
 
 import co.uk.shadowchild.platformer.util.LogHelper;
-import org.apache.commons.lang3.SystemUtils;
+import co.uk.shadowchild.platformer.util.ResourceBank;
 import org.apache.logging.log4j.Level;
+import org.lwjgl.LWJGLUtil;
 
 
 /**
@@ -25,11 +26,12 @@ public class Launch {
 
         if(isDebug) {
 
-            System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/lib/lwjgl/" + "native/" + getSystemOS());
+            System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/lib/lwjgl/" + "native/" + LWJGLUtil.getPlatformName());
         } else {
 
-            System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/native/" + getSystemOS());
+            System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir") + "/native/" + LWJGLUtil.getPlatformName());
         }
+        System.setProperty("net.java.games.input.librarypath", System.getProperty("org.lwjgl.librarypath"));
 
         System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 
@@ -39,35 +41,19 @@ public class Launch {
 
         // Init
         game = new Game();
+        ResourceBank.load();
 
         // Post Init
         game.run();
     }
 
-    private static String getSystemOS() {
-
-        if(SystemUtils.IS_OS_UNIX) {
-
-            return "linux";
-        }
-        if(SystemUtils.IS_OS_MAC) {
-
-            return "macosx";
-        }
-        if(SystemUtils.IS_OS_WINDOWS) {
-
-            return "windows";
-        }
-        if(SystemUtils.IS_OS_SUN_OS) {
-
-            return "solaris";
-        }
-
-        return "";
-    }
-
     public static Game getGameInstance() {
 
         return game;
+    }
+
+    public static boolean getIsDebug() {
+
+        return isDebug;
     }
 }

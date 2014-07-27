@@ -11,7 +11,7 @@ public class Box {
     public Point topLeft;
     public int width, height;
 
-    public float red, green, blue;
+    public float red = 0F, green = 0F, blue = 0F;
 
     public Box(Point topLeft, int width, int height) {
 

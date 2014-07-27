@@ -45,11 +45,10 @@ public class MouseInputHandler implements IInputHandler {
             if(Mouse.getEventButtonState()) {
 
                 Type type = Type.getTypeFromInt(Mouse.getEventButton());
-
                 switch(type) {
 
                     case LEFT:
-                        RenderGlobal.spawnBox(new Point(Mouse.getX(), getCorrectedY()), 100, 100);
+                        RenderGlobal.instance.spawnBox(new Point(Mouse.getX(), getCorrectedY()), 100, 100);
                         break;
 
                     default:

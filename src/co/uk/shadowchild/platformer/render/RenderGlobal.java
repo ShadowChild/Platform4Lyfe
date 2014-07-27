@@ -3,6 +3,7 @@ package co.uk.shadowchild.platformer.render;
 import co.uk.shadowchild.platformer.geom.Box;
 import co.uk.shadowchild.platformer.geom.Point;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,15 @@ import java.util.List;
  */
 public class RenderGlobal {
 
-    private static boolean isInitialized;
+    public static final RenderGlobal instance = new RenderGlobal();
 
-    public static List<Box> boxes = new ArrayList<>();
+    private RenderGlobal() {}
 
-    public static void renderLine(Point left, Point right) {
+    private boolean isInitialized;
+
+    public List<Box> boxes = new ArrayList<>();
+
+    public void renderLine(Point left, Point right) {
 
         GL11.glBegin(GL11.GL_LINES);
         GL11.glVertex2i(left.x, left.y);
@@ -25,7 +30,7 @@ public class RenderGlobal {
         GL11.glEnd();
     }
 
-    public static void renderQuad(Box box) {
+    public void renderQuad(Box box) {
 
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glColor3f(box.red, box.green, box.blue);
@@ -36,13 +41,19 @@ public class RenderGlobal {
         GL11.glEnd();
     }
 
-    public static void spawnBox(Point topLeft, int width, int height) {
+    public void renderTexturedQuad(Texture texture, Box box) {
+
+        texture.bind();
+        renderQuad(box);
+    }
+
+    public void spawnBox(Point topLeft, int width, int height) {
 
         Box box = new Box(topLeft, width, height);
         boxes.add(box);
     }
 
-    public static void initGL(int width, int height) {
+    public void initGL(int width, int height) {
 
         if(isInitialized) return;
 
@@ -51,5 +62,10 @@ public class RenderGlobal {
         GL11.glOrtho(0, width, height, 0, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         isInitialized = true;
+    }
+
+    public void bindTexture(Texture texture) {
+
+        texture.bind();
     }
 }
