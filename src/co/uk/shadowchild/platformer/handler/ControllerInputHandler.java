@@ -12,6 +12,18 @@ import org.lwjgl.input.Controllers;
 public class ControllerInputHandler implements IInputHandler {
 
     public static Controller controller;
+    
+    // TODO: Implement this and only this
+    public static List<Gamepad> controllers;
+    
+    public static void addController(Controller controller, GamepadType type){
+        
+        Gamepad gamepad = new Gamepad(controller, type);
+        if(!controllers.contains(gamepad))
+            controllers.add(gamepad);
+        else
+            LogHelper.debug("Controller already registered");
+    }
 
     @Override
     public void handle() {
